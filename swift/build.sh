@@ -1,3 +1,3 @@
-swiftc *.swift
-chmod +x main
+swiftc *.swift && \
+chmod +x main && \
 ./main

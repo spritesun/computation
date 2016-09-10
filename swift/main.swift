@@ -1,1 +1,2 @@
-SmallStepSemanticTest()
+// SmallStepSemanticTest()
+BigStepSemanticTest()

@@ -3,31 +3,6 @@
 
 // expressions, immutable for environment
 
-class SmallStepSemantic {
-	
-}
-
-protocol Expression : CustomStringConvertible {
-    var isReducible: Bool { get }
-    func reduce(_: [String: Expression]) -> Expression
-}
-
-extension Expression {
-    func reduce(_: [String: Expression]) -> Expression {
-        return self
-    }
-}
-
-struct NilExpression : Expression{
-    var description: String {
-        return "(Nil)"
-    }
-    
-    var isReducible: Bool {
-        return false
-    }
-}
-
 struct Number : Expression {
     let value: Double
     
@@ -41,7 +16,7 @@ struct Number : Expression {
     
     var isReducible: Bool {
         return false
-    }
+    }    	
 }
 
 struct Add : Expression {
@@ -69,7 +44,7 @@ struct Add : Expression {
         } else if let leftNumber = left as? Number, rightNumber = right as? Number {
             return Number(leftNumber.value + rightNumber.value)
         }
-        return NilExpression()
+        fatalError("Add reduce failed.")
     }
 }
 
@@ -98,7 +73,7 @@ struct Multiply : Expression {
         } else if let leftNumber = left as? Number, rightNumber = right as? Number {
             return Number(leftNumber.value * rightNumber.value)
         }
-        return NilExpression()
+        fatalError("Multiply reduce failed.")
     }
 }
 
@@ -143,7 +118,7 @@ struct LessThan : Expression {
         } else if let leftNumber = left as? Number, rightNumber = right as? Number {
             return Boolean(leftNumber.value < rightNumber.value)
         }
-        return NilExpression()
+        fatalError("LessThan reduce failed.")
     }
 }
 
@@ -181,14 +156,6 @@ extension Statement {
 struct DoNothing: Statement {
 	var description: String {
 		return "do-nothing"
-	}
-	
-	var isReducible : Bool { return false }	
-}
-
-struct Error: Statement {
-	var description: String {
-		return "error"
 	}
 	
 	var isReducible : Bool { return false }	
@@ -245,9 +212,8 @@ struct If : Statement {
 			} else {
 				return (alternative, env)
 			}
-		} else {
-				return (Error(), env)
 		}
+		fatalError("If reduce failed.")
 	}
 }
 
