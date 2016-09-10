@@ -1,6 +1,9 @@
 # Computation experiments
 
-## Lambda calculus in Racket(Lisp/Scheme family)
+## In Racket (Lisp/Scheme family)
+
+### Lambda calculus
+
 
 ## In Swift
 
