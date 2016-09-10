@@ -1,7 +1,11 @@
 func BigStepSemanticTest() {
 	print(">> BigStepSemanticTest")
-	print(Add(Multiply(Number(23), Number(32)), Number(73)).evaluate([:]))
-	print(Variable("x").evaluate(["x": Number(3)]))
-	print(LessThan(Add(Variable("x"), Number(2)), Variable("y")).evaluate(["x": Number(2), "y": Number(5)]))
+	var statement : Statement
+	var env : [String: Expression]
+
+	statement = While(LessThan(Variable("x"), Number(5)), Assign("x", Multiply(Variable("x"), Number(3))))
+	env = ["x": Number(1)]
+	
+	print(statement.evaluate(env))
 }
 

@@ -142,23 +142,12 @@ struct Variable : Expression {
 
 // statements, mutating environment
 
-protocol Statement : CustomStringConvertible {
-    var isReducible: Bool { get }
-    func reduce(_: [String: Expression]) -> (statement: Statement, env: [String: Expression])
-}
-
-extension Statement {
-    func reduce(env: [String: Expression]) -> (statement: Statement, env: [String: Expression]) {
-        return (self, env)
-    }
-}
-
 struct DoNothing: Statement {
 	var description: String {
 		return "do-nothing"
 	}
 	
-	var isReducible : Bool { return false }	
+	var isReducible : Bool { return false }		
 }
 
 struct Assign : Statement {
@@ -259,7 +248,7 @@ struct While : Statement {
 	func reduce(env: [String: Expression]) -> (statement: Statement, env: [String: Expression]) {
 		// very interesting explain for <while> statement
 		// translate to <if> statement with a <while> consequence, make it iterative
-		return (If(condition, Sequence(body, While(condition, body)), DoNothing()), env)
+		return (If(condition, Sequence(body, self), DoNothing()), env)
 	}
 }
 
